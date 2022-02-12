@@ -1,38 +1,46 @@
 import React from "react";
-import styled, { css } from 'styled-components';
+import styled, { css } from "styled-components";
 import { NavLink as Link } from "react-router-dom";
 
 import * as colors from "../../colors";
 import Arrow from "../../images/arrow-icon.png";
 import SearchWhite from "../../images/search-icon-white.png";
+import { SideNavBarProps } from "../../models/components/SideNavbar";
 
-export default class SideNavBar extends React.Component {
-
+export default function SideNavBar({ isOpen }: SideNavBarProps): JSX.Element {
   /* Write the necessary functions to show and hide the side bar on small devices */
 
-  render () {
-    const { isOpen } = this.state;
-
-    return (
-      <SideNavBarCont className={isOpen ? 'visible' : ''}>
-        {/* Implement a hamburger icon slide in effect for small devices */}
-        <SideNavMainLink className="menu_nav_link main_nav_link" to="/" exact>
-          Wesley
-          <NavIcon arrow></NavIcon>
-        </SideNavMainLink>
-        <SideNavMainLink className="menu_nav_link" to="/discover">
-          Discover
-          <NavIcon search></NavIcon>
-        </SideNavMainLink>
-        <SideNavHeader><HeaderText>Watched</HeaderText></SideNavHeader>
-        <NavLink className="menu_nav_link" to="/watched/movies">Movies</NavLink>
-        <NavLink className="menu_nav_link" to="/watched/tv-shows">Tv Shows</NavLink>
-        <SideNavHeader><HeaderText>Saved</HeaderText></SideNavHeader>
-        <NavLink className="menu_nav_link" to="/saved/movies">Movies</NavLink>
-        <NavLink className="menu_nav_link" to="/saved/tv-shows">Tv Shows</NavLink>
-      </SideNavBarCont>
-    );
-  }
+  return (
+    <SideNavBarCont className={isOpen ? "visible" : ""}>
+      {/* Implement a hamburger icon slide in effect for small devices */}
+      <SideNavMainLink className="menu_nav_link main_nav_link" to="/" exact>
+        Wesley
+        <NavIcon image={Arrow}></NavIcon>
+      </SideNavMainLink>
+      <SideNavMainLink className="menu_nav_link" to="/discover">
+        Discover
+        <NavIcon image={SearchWhite}></NavIcon>
+      </SideNavMainLink>
+      <SideNavHeader>
+        <HeaderText>Watched</HeaderText>
+      </SideNavHeader>
+      <NavLink className="menu_nav_link" to="/watched/movies">
+        Movies
+      </NavLink>
+      <NavLink className="menu_nav_link" to="/watched/tv-shows">
+        Tv Shows
+      </NavLink>
+      <SideNavHeader>
+        <HeaderText>Saved</HeaderText>
+      </SideNavHeader>
+      <NavLink className="menu_nav_link" to="/saved/movies">
+        Movies
+      </NavLink>
+      <NavLink className="menu_nav_link" to="/saved/tv-shows">
+        Tv Shows
+      </NavLink>
+    </SideNavBarCont>
+  );
 }
 
 const SideNavBarCont = styled.div`
@@ -41,7 +49,7 @@ const SideNavBarCont = styled.div`
   width: 280px;
   height: 100%;
   background-color: ${colors.sideNavBar};
-`
+`;
 
 const SideNavMainLink = styled(Link)`
   position: relative;
@@ -50,22 +58,21 @@ const SideNavMainLink = styled(Link)`
   font-size: 1.6em;
   font-weight: 700;
   color: white;
-`
+`;
 
-const NavIcon = styled.div`
+const NavIcon = styled.div<{image: any}>`
   position: absolute;
   right: 35px;
   top: 50%;
-`
+  ${({image}) => css`
+    background-image: url(${image})
+  `}
+`;
 
-const SideNavHeader = styled.div`
+const SideNavHeader = styled.div``;
 
-`
-
-const HeaderText = styled.div`
-
-`
+const HeaderText = styled.div``;
 
 const NavLink = styled(Link)`
   display: block;
-`
+`;

@@ -5,6 +5,6 @@ import * as colors from "../../colors";
 import SearchIcon from "../../images/search-icon-yellow.png";
 import CalendarIcon from "../../images/year-icon.png";
 
-export default class SearchBar extends React.Component {
-
+export default function SearchBar() {
+  return <div>SEARCH BAR</div>
 }
