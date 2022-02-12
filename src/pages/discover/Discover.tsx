@@ -4,8 +4,8 @@ import styled from 'styled-components';
 import * as colors from "../../colors";
 import * as fetcher from "../../fetcher";
 
-import SearchFilters from "../../components/searchfilter";
-import MovieList from "../../components/movielist";
+import SearchFilters from "../../components/searchfilter/SearchFilter";
+import MovieList from "../../components/movielist/MovieList";
 
 export default class Discover extends React.Component {
   constructor (props) {

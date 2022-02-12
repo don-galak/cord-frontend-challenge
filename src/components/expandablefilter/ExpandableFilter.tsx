@@ -1,7 +1,7 @@
 import React from "react";
 import styled from 'styled-components';
 
-import Checkbox from "../checkbox";
+import Checkbox from "../checkbox/Checkbox";
 
 export default class ExpandableFilter extends React.Component {
   constructor (props) {
