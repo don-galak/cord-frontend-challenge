@@ -13,30 +13,30 @@ export default function SideNavBar({ isOpen }: SideNavBarProps): JSX.Element {
   return (
     <SideNavBarCont className={isOpen ? "visible" : ""}>
       {/* Implement a hamburger icon slide in effect for small devices */}
-      <SideNavMainLink className="menu_nav_link main_nav_link" to="/" exact>
+      <SideNavMainLink activeClassName="menu_nav_link main_nav_link" to="/" exact>
         Wesley
         <NavIcon image={Arrow}></NavIcon>
       </SideNavMainLink>
-      <SideNavMainLink className="menu_nav_link" to="/discover">
+      <SideNavMainLink activeClassName="menu_nav_link" to="/discover">
         Discover
         <NavIcon image={SearchWhite}></NavIcon>
       </SideNavMainLink>
       <SideNavHeader>
         <HeaderText>Watched</HeaderText>
       </SideNavHeader>
-      <NavLink className="menu_nav_link" to="/watched/movies">
+      <NavLink activeClassName="menu_nav_link" to="/watched/movies">
         Movies
       </NavLink>
-      <NavLink className="menu_nav_link" to="/watched/tv-shows">
+      <NavLink activeClassName="menu_nav_link" to="/watched/tv-shows">
         Tv Shows
       </NavLink>
       <SideNavHeader>
         <HeaderText>Saved</HeaderText>
       </SideNavHeader>
-      <NavLink className="menu_nav_link" to="/saved/movies">
+      <NavLink activeClassName="menu_nav_link" to="/saved/movies">
         Movies
       </NavLink>
-      <NavLink className="menu_nav_link" to="/saved/tv-shows">
+      <NavLink activeClassName="menu_nav_link" to="/saved/tv-shows">
         Tv Shows
       </NavLink>
     </SideNavBarCont>
@@ -60,19 +60,34 @@ const SideNavMainLink = styled(Link)`
   color: white;
 `;
 
-const NavIcon = styled.div<{image: any}>`
+const NavIcon = styled.div<{ image: string }>`
   position: absolute;
   right: 35px;
-  top: 50%;
-  ${({image}) => css`
-    background-image: url(${image})
-  `}
+  top: 40%;
+  width: 30px;
+  height: 30px;
+  background-repeat: no-repeat;
+  ${({ image }) => css`
+    background-image: url(${image});
+  `};
 `;
 
-const SideNavHeader = styled.div``;
+const SideNavHeader = styled.div`
+  position: relative;
+  display: block;
+  padding: 25px 35px;
+  font-size: 1.6em;
+  font-weight: 700;
+  color: white;
+  border-bottom: 1px solid #7c7c79;
+`;
 
 const HeaderText = styled.div``;
 
 const NavLink = styled(Link)`
   display: block;
+  font-size: 1em;
+  font-weight: 700;
+  padding: 12px 35px;
+  color: #7c7c79;
 `;
