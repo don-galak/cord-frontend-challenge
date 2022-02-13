@@ -16,5 +16,6 @@ export default function MovieList({ movies, genres }: MovieListProps) {
 }
 
 const MoviesWrapper = styled.div`
+  width: 70%;
   position: relative;
 `;

@@ -12,7 +12,6 @@ export default function Discover() {
   const [state, setState] = useState(new DiscoverState());
   const [loading, setLoading] = useState(true);
 
-  // * Write a function to preload the popular movies when page loads & get the movie genres
   useEffect(() => {
     void (async () => {
       const res = await fetcher.getPopular();
@@ -27,8 +26,21 @@ export default function Discover() {
     })();
   }, []);
 
-  // Write a function to trigger the API request and load the search results based on the keyword and year given as parameters
-  const searchMovies = useCallback((keyword: string, year: number) => {}, []);
+  
+  // ! extract state into seperate hooks or constant vars 
+  const searchMovies = useCallback(
+    async (keyword: string, year: number | null) => {
+      setLoading(true);
+      const res = await fetcher.getMoviesBySearch(keyword, year);
+      setLoading(false);
+      setState((p) => ({
+        ...p,
+        results: res.results,
+        totalCount: res.total_results,
+      }));
+    },
+    []
+  );
 
   return (
     <DiscoverWrapper>
@@ -66,7 +78,9 @@ const TotalCounter = styled.div`
   font-weight: 900;
 `;
 
-const MovieResults = styled.div``;
+const MovieResults = styled.div`
+  // float: left;
+`;
 
 const MovieFilters = styled.div``;
 

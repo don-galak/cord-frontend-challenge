@@ -13,12 +13,10 @@ export default function SearchFilters({
   searchMovies,
 }: SearchFiltersProps): JSX.Element {
   const [searchValue, setSearchValue] = useState("");
-  const [dateValue, setDateValue] = useState("");
+  const [dateValue, setDateValue] = useState<null | number>(null);
 
   const onSearchChange = useCallback(
     (val: string) => {
-      console.log('onSearchChange');
-      
       searchMovies(val, dateValue);
       setSearchValue(val);
     },
@@ -26,7 +24,7 @@ export default function SearchFilters({
   );
 
   const onDateChange = useCallback(
-    (val: string) => {
+    (val: number) => {
       searchMovies(searchValue, val);
       setDateValue(val);
     },
