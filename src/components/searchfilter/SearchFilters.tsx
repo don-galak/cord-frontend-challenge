@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled, { css } from "styled-components";
 
 import * as colors from "../../colors";
@@ -12,13 +12,34 @@ export default function SearchFilters({
   languages,
   searchMovies,
 }: SearchFiltersProps): JSX.Element {
+  const [searchValue, setSearchValue] = useState("");
+  const [dateValue, setDateValue] = useState("");
+
+  const onSearchChange = useCallback(
+    (val: string) => {
+      console.log('onSearchChange');
+      
+      searchMovies(val, dateValue);
+      setSearchValue(val);
+    },
+    [searchMovies, dateValue]
+  );
+
+  const onDateChange = useCallback(
+    (val: string) => {
+      searchMovies(searchValue, val);
+      setDateValue(val);
+    },
+    [searchMovies, searchValue]
+  );
+
   return (
     <FiltersWrapper>
       <SearchFiltersCont className="search_inputs_cont" marginBottom>
-        {/* Implement a "SearchBar" component and re-use it for the keyword and the year inputs */}
+        <SearchBar onChange={onSearchChange} />
       </SearchFiltersCont>
       <SearchFiltersCont>
-        <CategoryTitle>Movies</CategoryTitle>
+        <CategoryTitle>Movie</CategoryTitle>
         {/* Implement a component called "ExpandableFilter" and apply it to all filter categories */}
       </SearchFiltersCont>
     </FiltersWrapper>
@@ -42,4 +63,6 @@ const SearchFiltersCont = styled("div")<{ marginBottom?: boolean }>`
     `}
 `;
 
-const CategoryTitle = styled.div``;
+const CategoryTitle = styled.div`
+  font-weight: bold;
+`;
