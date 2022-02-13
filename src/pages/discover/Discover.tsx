@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled from "styled-components";
 
 import * as colors from "../../colors";
@@ -10,13 +10,22 @@ import { DiscoverState } from "../../models/pages/Discover";
 
 export default function Discover() {
   const [state, setState] = useState(new DiscoverState());
+  const [loading, setLoading] = useState(true);
 
   // * Write a function to preload the popular movies when page loads & get the movie genres
-  /* 
-    useEffect(() => {
-
-    }, [])
-  */
+  useEffect(() => {
+    void (async () => {
+      const res = await fetcher.getPopular();
+      const genreOptions = await fetcher.getMovieGenres();
+      setState((p) => ({
+        ...p,
+        results: res.results,
+        totalCount: res.total_results,
+        genreOptions: genreOptions.genres,
+      }));
+      setLoading(false);
+    })();
+  }, []);
 
   // Write a function to trigger the API request and load the search results based on the keyword and year given as parameters
   const searchMovies = useCallback((keyword: string, year: number) => {}, []);
@@ -37,10 +46,13 @@ export default function Discover() {
         {state.totalCount > 0 && (
           <TotalCounter>{state.totalCount} results</TotalCounter>
         )}
-        <MovieList
-          movies={state.results || []}
-          genres={state.genreOptions || []}
-        />
+        {loading && <div className="loader"></div>}
+        {!loading && (
+          <MovieList
+            movies={state.results || []}
+            genres={state.genreOptions || []}
+          />
+        )}
       </MovieResults>
     </DiscoverWrapper>
   );
