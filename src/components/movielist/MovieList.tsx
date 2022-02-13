@@ -7,6 +7,9 @@ import MovieItem from "../movieitem/MovieItem";
 export default function MovieList({ movies, genres }: MovieListProps) {
   return (
     <MoviesWrapper>
+      {movies.map((movie) => (
+        <MovieItem movie={movie} key={movie.id} genres={genres} />
+      ))}
       {/* Finish the MovieItem component and use it here to display the movie results */}
     </MoviesWrapper>
   );
