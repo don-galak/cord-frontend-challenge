@@ -35,9 +35,9 @@ const SearchBar = memo(({ onSearchChange, onDateChange }: SearchBarProps) => {
 
   return (
     <div className="input-icons">
-      <img src={SearchIcon} className="icon" alt="search" />
+      {/* <img src={SearchIcon} className="icon" alt="search" /> */}
       <Input onChange={debouncedSearchChangeHandler} />
-      <img src={CalendarIcon} className="icon" alt="search" />
+      {/* <img src={CalendarIcon} className="icon" alt="search" /> */}
       <Input
         onChange={debouncedDateChangeHandler}
         type="number"

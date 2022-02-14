@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 
 import * as colors from "../../colors";
@@ -14,10 +14,17 @@ export default function SearchFilters({
 }: SearchFiltersProps): JSX.Element {
   const [keyword, setKeyword] = useState<null | string>(null);
   const [date, setDate] = useState<null | string>(null);
+  const [genresParam, setGenresParam] = useState("");
+
+  const updateGenreIds = useCallback((ids: string[]) => {
+    setGenresParam(() => {
+      return ids.join("%20s");
+    });
+  }, []);
 
   useEffect(() => {
-    searchMovies(keyword, date);
-  }, [keyword, date]);
+    searchMovies(keyword, date, genresParam);
+  }, [keyword, date, genresParam]);
 
   return (
     <FiltersWrapper>
@@ -26,7 +33,12 @@ export default function SearchFilters({
       </SearchFiltersCont>
       <SearchFiltersCont>
         <CategoryTitle>Movie</CategoryTitle>
-        {/* Implement a component called "ExpandableFilter" and apply it to all filter categories */}
+        <ExpandableFilter
+          key="Select genre(s)"
+          title="Select genre(s)"
+          options={genres}
+          updateIds={updateGenreIds}
+        />
       </SearchFiltersCont>
     </FiltersWrapper>
   );

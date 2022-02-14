@@ -26,8 +26,9 @@ const queryMap: QueryMap = {
     error: "There was an error fetching the movie genres: ",
   },
   search: {
-    generateEndpoint: (query, year) => {
-      if (!query) return `${popularPath}&page=1&year=${year}`;
+    generateEndpoint: (query, year, genres) => {
+      if (!query || genres)
+        return `${popularPath}&page=1&year=${year}&with_genres=${genres}%20&`;
       if (!year) return `${searchPath}&query=${query}`;
       return `${searchPath}&query=${query}&page=1&year=${year}`;
     },
@@ -38,13 +39,18 @@ const queryMap: QueryMap = {
 export const get = async (
   term: SearchTerm,
   query: string | null = null,
-  year: string | null = null
+  year: string | null = null,
+  genres: string = ""
 ) => {
   const params = queryMap[term];
   let endpoint = params.endpoint;
 
   if (term === "search") {
-    endpoint = (queryMap.search.generateEndpoint as SearchQueryFn)(query, year);
+    endpoint = (queryMap.search.generateEndpoint as SearchQueryFn)(
+      query,
+      year,
+      genres
+    );
   }
 
   try {

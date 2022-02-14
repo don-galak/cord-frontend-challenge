@@ -1,3 +1,5 @@
+import { Option } from "../common/option";
+
 export interface Movie {
   adult: boolean;
   backdrop_path: string;
@@ -17,5 +19,5 @@ export interface Movie {
 
 export interface MovieListProps {
   movies: Movie[];
-  genres: { id: number; name: string }[];
+  genres: Option[];
 }

@@ -1,14 +1,11 @@
-interface Option {
-  name: number | string;
-  id: number | string;
-}
+import { Option } from "../common/option";
 
 export class DiscoverState {
   keyword = "";
   year = 0;
   results = [];
   totalCount = 0;
-  genreOptions = [];
+  genreOptions: Option[] = [];
   ratingOptions: Option[] = [
     { id: 7.5, name: 7.5 },
     { id: 8, name: 8 },

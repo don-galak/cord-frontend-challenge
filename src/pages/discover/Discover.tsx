@@ -13,10 +13,10 @@ export default function Discover() {
   const [loading, setLoading] = useState(true);
 
   const searchMovies = useCallback(
-    async (keyword: string | null, year: string | null) => {
-      if (keyword || year) {
+    async (keyword: string | null, year: string | null, genres: string) => {
+      if (keyword || year || genres) {
         setLoading(true);
-        const res = await fetcher.get("search", keyword, year);
+        const res = await fetcher.get("search", keyword, year, genres);
         setLoading(false);
         setState((p) => ({
           ...p,
