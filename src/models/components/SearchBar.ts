@@ -1,3 +1,4 @@
 export interface SearchBarProps {
-  onChange: (value: string) => void;
+  onSearchChange: (value: string) => void;
+  onDateChange: (value: string) => void;
 }

@@ -1,5 +1,5 @@
 export type SearchTerm = "popular" | "genres" | "search";
-export type SearchQueryFn = (keyword: string, year: number | null) => string;
+export type SearchQueryFn = (keyword: string | null, year: string | null) => string;
 
 export interface QueryMap {
   [index: string]: {

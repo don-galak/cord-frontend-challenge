@@ -12,7 +12,7 @@ const fetcher: AxiosInstance = axios.create({
 });
 
 export const imagePath = "https://image.tmdb.org/t/p/w200";
-const popularPath = `/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&`;
+const popularPath = `/discover/movie?api_key=${apiKey}&sort_by=popularity.desc`;
 const genrePath = `/genre/movie/list?api_key=${apiKey}&language=en-US`;
 const searchPath = `search/movie?api_key=${apiKey}`;
 
@@ -26,19 +26,22 @@ const queryMap: QueryMap = {
     error: "There was an error fetching the movie genres: ",
   },
   search: {
-    generateEndpoint: (query, year) =>
-      `${searchPath}&query=${query}&page=1&year=${year}`,
+    generateEndpoint: (query, year) => {
+      if (!query) return `${popularPath}&page=1&year=${year}`;
+      if (!year) return `${searchPath}&query=${query}`;
+      return `${searchPath}&query=${query}&page=1&year=${year}`;
+    },
     error: "There was an error fetching movies by query: ",
   },
 };
 
 export const get = async (
   term: SearchTerm,
-  query: string = "",
-  year: number | null = null
+  query: string | null = null,
+  year: string | null = null
 ) => {
   const params = queryMap[term];
-  let endpoint = params.endpoint;;
+  let endpoint = params.endpoint;
 
   if (term === "search") {
     endpoint = (queryMap.search.generateEndpoint as SearchQueryFn)(query, year);

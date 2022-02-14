@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 
 import * as colors from "../../colors";
@@ -12,29 +12,17 @@ export default function SearchFilters({
   languages,
   searchMovies,
 }: SearchFiltersProps): JSX.Element {
-  const [searchValue, setSearchValue] = useState("");
-  const [dateValue, setDateValue] = useState<null | number>(null);
+  const [keyword, setKeyword] = useState<null | string>(null);
+  const [date, setDate] = useState<null | string>(null);
 
-  const onSearchChange = useCallback(
-    (val: string) => {
-      searchMovies(val, dateValue);
-      setSearchValue(val);
-    },
-    [searchMovies, dateValue]
-  );
-
-  const onDateChange = useCallback(
-    (val: number) => {
-      searchMovies(searchValue, val);
-      setDateValue(val);
-    },
-    [searchMovies, searchValue]
-  );
+  useEffect(() => {
+    searchMovies(keyword, date);
+  }, [keyword, date]);
 
   return (
     <FiltersWrapper>
       <SearchFiltersCont className="search_inputs_cont" marginBottom>
-        <SearchBar onChange={onSearchChange} />
+        <SearchBar onSearchChange={setKeyword} onDateChange={setDate} />
       </SearchFiltersCont>
       <SearchFiltersCont>
         <CategoryTitle>Movie</CategoryTitle>

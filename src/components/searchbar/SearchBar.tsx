@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
+import React, { memo, useEffect, useMemo } from "react";
 import styled, { css } from "styled-components";
 import debounce from "lodash/debounce";
 
@@ -7,19 +7,45 @@ import SearchIcon from "../../images/search-icon-yellow.png";
 import CalendarIcon from "../../images/year-icon.png";
 import { SearchBarProps } from "../../models/components/SearchBar";
 
-const SearchBar = memo(({  onChange }: SearchBarProps) => {
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    onChange(e.target.value);
+const SearchBar = memo(({ onSearchChange, onDateChange }: SearchBarProps) => {
+  const searchChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onSearchChange(e.target.value);
   };
 
-  const debouncedChangeHandler = useMemo(
-    () => debounce(changeHandler, 400),
+  const debouncedSearchChangeHandler = useMemo(
+    () => debounce(searchChangeHandler, 400),
     []
   );
 
-  useEffect(() => debouncedChangeHandler.cancel(), []);
+  const dateChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onDateChange(e.target.value);
+  };
 
-  return <Input onChange={debouncedChangeHandler} />;
+  const debouncedDateChangeHandler = useMemo(
+    () => debounce(dateChangeHandler, 400),
+    []
+  );
+
+  useEffect(() => {
+    return () => {
+      debouncedSearchChangeHandler.cancel();
+      debouncedDateChangeHandler.cancel();
+    };
+  }, []);
+
+  return (
+    <div className="input-icons">
+      <img src={SearchIcon} className="icon" alt="search" />
+      <Input onChange={debouncedSearchChangeHandler} />
+      <img src={CalendarIcon} className="icon" alt="search" />
+      <Input
+        onChange={debouncedDateChangeHandler}
+        type="number"
+        min={1878}
+        max={2022}
+      />
+    </div>
+  );
 });
 
 export default SearchBar;
