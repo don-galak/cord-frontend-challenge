@@ -1,4 +1,5 @@
 import axios, { AxiosInstance } from "axios";
+import { QueryMap, SearchQueryFn, SearchTerm } from "./models/fetcher";
 
 const apiKey = "1047dd228087fc6ef79efb15641ffd73";
 const baseUrl = "https://api.themoviedb.org/3";
@@ -15,31 +16,38 @@ const popularPath = `/discover/movie?api_key=${apiKey}&sort_by=popularity.desc&`
 const genrePath = `/genre/movie/list?api_key=${apiKey}&language=en-US`;
 const searchPath = `search/movie?api_key=${apiKey}`;
 
-export const getPopular = async () => {
-  try {
-    const res = await fetcher.get(popularPath);
-    return res.data;
-  } catch (err) {
-    throw new Error(`There was an error fetching the popular movies: ${err}`);
-  }
+const queryMap: QueryMap = {
+  popular: {
+    endpoint: popularPath,
+    error: "There was an error fetching the popular movies: ",
+  },
+  genres: {
+    endpoint: genrePath,
+    error: "There was an error fetching the movie genres: ",
+  },
+  search: {
+    generateEndpoint: (query, year) =>
+      `${searchPath}&query=${query}&page=1&year=${year}`,
+    error: "There was an error fetching movies by query: ",
+  },
 };
 
-export const getMovieGenres = async () => {
-  try {
-    const res = await fetcher.get(genrePath);
-    return res.data;
-  } catch (err) {
-    throw new Error(`There was an error fetching the movie genres: ${err}`);
-  }
-};
+export const get = async (
+  term: SearchTerm,
+  query: string = "",
+  year: number | null = null
+) => {
+  const params = queryMap[term];
+  let endpoint = params.endpoint;;
 
-export const getMoviesBySearch = async (query: string, year: number | null) => {
+  if (term === "search") {
+    endpoint = (queryMap.search.generateEndpoint as SearchQueryFn)(query, year);
+  }
+
   try {
-    const res = await fetcher.get(
-      `${searchPath}&query=${query}&page=1&year=${year}`
-    );
+    const res = await fetcher.get(endpoint as string);
     return res.data;
   } catch (err) {
-    throw new Error(`There was an error fetching movies by query: ${err}`);
+    throw new Error(params.error + err);
   }
 };

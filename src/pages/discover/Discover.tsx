@@ -12,10 +12,26 @@ export default function Discover() {
   const [state, setState] = useState(new DiscoverState());
   const [loading, setLoading] = useState(true);
 
+  const searchMovies = useCallback(
+    async (keyword: string, year: number | null) => {
+      if (keyword || year) {
+        setLoading(true);
+        const res = await fetcher.get("search", keyword, year);
+        setLoading(false);
+        setState((p) => ({
+          ...p,
+          results: res.results,
+          totalCount: res.total_results,
+        }));
+      }
+    },
+    []
+  );
+
   useEffect(() => {
     void (async () => {
-      const res = await fetcher.getPopular();
-      const genreOptions = await fetcher.getMovieGenres();
+      const res = await fetcher.get("popular");
+      const genreOptions = await fetcher.get("genres");
       setState((p) => ({
         ...p,
         results: res.results,
@@ -25,22 +41,6 @@ export default function Discover() {
       setLoading(false);
     })();
   }, []);
-
-  
-  // ! extract state into seperate hooks or constant vars 
-  const searchMovies = useCallback(
-    async (keyword: string, year: number | null) => {
-      setLoading(true);
-      const res = await fetcher.getMoviesBySearch(keyword, year);
-      setLoading(false);
-      setState((p) => ({
-        ...p,
-        results: res.results,
-        totalCount: res.total_results,
-      }));
-    },
-    []
-  );
 
   return (
     <DiscoverWrapper>
