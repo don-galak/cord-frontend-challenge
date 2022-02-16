@@ -14,12 +14,24 @@ export default function SearchFilters({
 }: SearchFiltersProps): JSX.Element {
   const [keyword, setKeyword] = useState<null | string>(null);
   const [date, setDate] = useState<null | string>(null);
-  const [genresParam, setGenresParam] = useState("");
+  const [genresParam, setGenresParam] = useState('');
+  const [rating, setRating] = useState('');
+  const [language, setLanguage] = useState('')
 
   const updateGenreIds = useCallback((ids: string[]) => {
     setGenresParam(() => {
       return ids.join("%20s");
     });
+  }, []);
+
+  const updateRating = useCallback((ids: string[]) => {
+    console.log("RATINGS: ", ids);
+    setRating(ids[0])
+  }, []);
+
+  const updateLanguage = useCallback((ids: string[]) => {
+    console.log("LANGUAGE: ", ids);
+    setLanguage(ids[0])
   }, []);
 
   useEffect(() => {
@@ -34,10 +46,25 @@ export default function SearchFilters({
       <SearchFiltersCont>
         <CategoryTitle>Movie</CategoryTitle>
         <ExpandableFilter
+          type="checkbox"
           key="Select genre(s)"
           title="Select genre(s)"
           options={genres}
           updateIds={updateGenreIds}
+        />
+        <ExpandableFilter
+          type="radio"
+          key="Select min. vote"
+          title="Select min. vote"
+          options={ratings}
+          updateIds={updateRating}
+        />
+        <ExpandableFilter
+          type="radio"
+          key="Select language"
+          title="Select language"
+          options={languages}
+          updateIds={updateLanguage}
         />
       </SearchFiltersCont>
     </FiltersWrapper>
@@ -63,4 +90,5 @@ const SearchFiltersCont = styled("div")<{ marginBottom?: boolean }>`
 
 const CategoryTitle = styled.div`
   font-weight: bold;
+  margin-bottom: 10px;
 `;
