@@ -1,27 +1,20 @@
-import React, { memo, useCallback } from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
+import { CheckboxProps } from "../../models/components/Checkbox";
 
-function CheckBox({
-  id,
-  text,
-  onChange,
-}: {
-  text: string | number;
-  onChange: (id: string) => void;
-  id: string | number;
-}): JSX.Element {
+function CheckBox({ id, text, onChange, type }: CheckboxProps): JSX.Element {
   return (
     <CheckboxCont>
       <input
-        type="checkbox"
+        type={type}
         id={text as string}
         name={text as string}
         value={text}
         onChange={() => {
-          onChange(`${id}`)
+          onChange(`${id}`);
         }}
       />
-      <label >{text}</label>
+      <label>{text}</label>
     </CheckboxCont>
   );
 }
