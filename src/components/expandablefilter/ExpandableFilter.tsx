@@ -10,7 +10,7 @@ export default function ExpandableFilter({
   updateIds,
   type,
 }: ExpandableFilterProps): JSX.Element {
-  const [show, setShow] = useState(false);
+  const [expand, setExpand] = useState(false);
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
 
   const updateCheckedIds = useCallback(
@@ -39,8 +39,10 @@ export default function ExpandableFilter({
   return (
     <>
       <div>
-        <button onClick={() => setShow(!show)}>{title}</button>
-        {show &&
+        <Button onClick={() => setExpand(!expand)}>
+          <Expand expanded={expand} text={title} />
+        </Button>
+        {expand &&
           options.map((option) => (
             <Checkbox
               checked={checkedIds.includes(`${option.id}`)}
@@ -55,3 +57,21 @@ export default function ExpandableFilter({
     </>
   );
 }
+
+const Expand = ({ expanded, text }: { expanded: boolean; text: string }) => {
+  return (
+    <>
+      {expanded && <p>- {text}</p>}
+      {!expanded && <p>+ {text}</p>}
+    </>
+  );
+};
+
+const Button = styled.button`
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 16px;
+`;

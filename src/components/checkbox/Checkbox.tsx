@@ -24,4 +24,5 @@ export default memo(CheckBox);
 
 const CheckboxCont = styled.div`
   position: relative;
+  cursor: pointer;
 `;
