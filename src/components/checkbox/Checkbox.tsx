@@ -2,10 +2,11 @@ import React, { memo } from "react";
 import styled from "styled-components";
 import { CheckboxProps } from "../../models/components/Checkbox";
 
-function CheckBox({ id, text, onChange, type }: CheckboxProps): JSX.Element {
+function CheckBox({ id, text, onChange, type, checked }: CheckboxProps): JSX.Element {
   return (
     <CheckboxCont>
       <input
+        checked={checked}
         type={type}
         id={text as string}
         name={text as string}

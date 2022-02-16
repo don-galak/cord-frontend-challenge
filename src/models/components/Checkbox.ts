@@ -5,4 +5,5 @@ export interface CheckboxProps {
   onChange: (id: string) => void;
   id: string | number;
   type: CheckboxType;
+  checked: boolean;
 }
